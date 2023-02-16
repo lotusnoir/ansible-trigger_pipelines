@@ -1,4 +1,9 @@
 ---
+- name: "DEBUG | Show current project item"
+  ansible.builtin.debug:
+    var: item
+  when: trigger_pipelines_debug|bool
+
 - name: "Find repo id"
   ansible.builtin.uri:
     url: "{{ trigger_pipelines_url }}/api/v4/projects?search={{ item }}"
@@ -10,9 +15,19 @@
       PRIVATE-TOKEN: "{{ trigger_pipelines_access_token }}"
   register: project_id
 
+- name: "DEBUG | Show all project output"
+  ansible.builtin.debug:
+    var: project_id
+  when: trigger_pipelines_debug|bool
+
 - name: "DEBUG | Show project id"
   ansible.builtin.debug:
     var: project_id.json[0].id
+  when: trigger_pipelines_debug|bool
+
+- name: "DEBUG | Show projects vars for pipeline"
+  ansible.builtin.debug:
+    msg: "{{ trigger_pipelines_repos_vars[item] | join('&') }}"
   when: trigger_pipelines_debug|bool
 
 - name: "Trigger pipeline"

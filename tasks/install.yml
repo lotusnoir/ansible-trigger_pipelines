@@ -16,4 +16,4 @@
 
 - name: "Trigger tasks"
   include_tasks: trigger.yml
-  with_items: projects
+  with_items: "{{ projects }}"
