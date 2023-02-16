@@ -9,6 +9,11 @@
     projects: "{{ trigger_pipelines_repos_list | map('regex_replace', trigger_pipelines_remove_prefix, '') | list }}"
   when: trigger_pipelines_remove_prefix is defined
 
+- name: "DEBUG | repo to deploy"
+  ansible.builtin.debug:
+    var: projects
+  when: trigger_pipelines_debug|bool
+
 - name: "Trigger tasks"
   include_tasks: trigger.yml
   with_items: projects
