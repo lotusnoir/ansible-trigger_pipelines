@@ -1,0 +1,23 @@
+---
+- name: "Find repo id"
+  ansible.builtin.uri:
+    url: "{{ trigger_pipelines_url }}/api/v4/projects?search={{ item }}"
+    method: GET
+    return_content: true
+    status_code: 200
+    body_format: json
+    headers:
+      PRIVATE-TOKEN: "{{ trigger_pipelines_access_token }}"
+  register: project_id
+
+- name: "DEBUG | Show project id"
+  ansible.builtin.debug:
+    var: project_id.json[0].id
+  when: trigger_pipelines_debug|bool
+
+- name: "Trigger pipeline"
+  ansible.builtin.uri:
+    url: "{{ trigger_pipelines_url }}/api/v4/projects/{{ project_id.json[0].id }}/trigger/pipeline"
+    method: POST
+    body: "{{ trigger_pipelines_repos_vars[item] | join('&') }}"
+    status_code: 201

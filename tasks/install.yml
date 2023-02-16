@@ -1,0 +1,9 @@
+---
+- name: "DEBUG | repo to deploy"
+  ansible.builtin.debug:
+    var: trigger_pipelines_repos_list
+  when: trigger_pipelines_debug|bool
+
+- name: "Trigger tasks"
+  include_tasks: trigger.yml
+  with_items: trigger_pipelines_repos_list
