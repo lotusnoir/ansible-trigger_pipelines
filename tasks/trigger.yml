@@ -15,14 +15,18 @@
       PRIVATE-TOKEN: "{{ trigger_pipelines_access_token }}"
   register: project_id
 
-- name: "DEBUG | Show all project output"
+- name: "DEBUG | Show project id"
   ansible.builtin.debug:
-    var: project_id
+    var: project_id.json
   when: trigger_pipelines_debug|bool
+
+- name: Filter JSON object
+  ansible.builtin.set_fact:
+    project_id: "{{ project_id.json | json_query('[?path == `' + item + '` ].id') }}"
 
 - name: "DEBUG | Show project id"
   ansible.builtin.debug:
-    var: project_id.json[0].id
+    var: project_id[0]
   when: trigger_pipelines_debug|bool
 
 - name: "DEBUG | Show projects vars for pipeline"
@@ -32,7 +36,7 @@
 
 - name: "Trigger pipeline"
   ansible.builtin.uri:
-    url: "{{ trigger_pipelines_url }}/api/v4/projects/{{ project_id.json[0].id }}/trigger/pipeline"
+    url: "{{ trigger_pipelines_url }}/api/v4/projects/{{ project_id[0] }}/trigger/pipeline"
     method: POST
     body: "{{ trigger_pipelines_repos_vars[item] | join('&') }}"
     status_code: 201

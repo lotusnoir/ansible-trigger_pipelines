@@ -1,15 +1,17 @@
 ---
 trigger_pipelines_debug: false
 trigger_pipelines_url: "https://gitlab.exemple.fr"
-trigger_pipelines_access_token: "glpat-xxxxxxxxxxxxxxxxxx"
-#trigger_pipelines_remove_prefix: "repos_"
 
-trigger_pipelines_repos_list: "{{ group_names | select('match', '^repos_') | list }}"
-trigger_pipelines_repos_vars:
-  project1:
-    - token=glptt-xxxxxxxxxxxxxxxxxxxx
-    - ref=master
-    - variables[VM_DEPLOY_PROD]={{ inventory_hostname }}
-  project2:
-    - token=glptt-xxxxxxxxxxxxxxxxxxxx
-    - ref=titi
+#Project > settings > access Token > role developer + scopes read api + no expire
+trigger_pipelines_access_token: "glpat-xxxxxxxxxxxxxxxxxx"
+
+trigger_pipelines_repos_list: []
+#Project > settings > CI/CD > pipeline trigger > add trigger
+trigger_pipelines_repos_vars: {}
+#  project1:
+#    - token=glptt-xxxxxxxxxxxxxxxxxxxx
+#    - ref=master
+#    - variables[VM_DEPLOY_PROD]={{ inventory_hostname }}
+#  project2:
+#    - token=glptt-xxxxxxxxxxxxxxxxxxxx
+#    - ref=titi
