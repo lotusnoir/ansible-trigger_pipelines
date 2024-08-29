@@ -6,10 +6,8 @@ trigger_pipelines_repos_list: []
 
 #Project > settings > access Token > role developer + scopes read api + no expire
 trigger_pipelines_access_token: {}
-#  project1:
-#    - xxxxxxxxxxxxxxxxxxxx
-#  project2:
-#    - xxxxxxxxxxxxxxxxxxxx
+#  project1: xxxxxxxxxxxxxxxxxxxx
+#  project2: xxxxxxxxxxxxxxxxxxxx
 
 #Project > settings > CI/CD > pipeline trigger > add trigger
 trigger_pipelines_repos_vars: {}
