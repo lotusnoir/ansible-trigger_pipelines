@@ -12,7 +12,7 @@
     status_code: 200
     body_format: json
     headers:
-      PRIVATE-TOKEN: "{{ trigger_pipelines_access_token }}"
+      PRIVATE-TOKEN: "{{ trigger_pipelines_access_token[item] }}"
   register: project_id
 
 - name: "DEBUG | Show project id"
